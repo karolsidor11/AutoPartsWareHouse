@@ -5,11 +5,12 @@ import org.springframework.stereotype.Service;
 import pl.sidor.AutoPartsWareHouse.model.Body;
 import pl.sidor.AutoPartsWareHouse.repository.BodyRepository;
 
+import java.util.Collections;
+import java.util.List;
 import java.util.Optional;
 
 @Service
 public class BodyServiceImpl implements BodyService {
-
 
     private BodyRepository bodyRepository;
 
@@ -19,13 +20,19 @@ public class BodyServiceImpl implements BodyService {
     }
 
     @Override
-    public Optional<Body> findById(int id) {
+    public Body findById(int id) {
         Optional<Body> byId = bodyRepository.findById(id);
+        return byId.get();
+    }
 
-        if (byId.get() != null) {
-            return byId;
+    @Override
+    public List<Body> findAllBody() {
+        List<Body> all = (List<Body>) bodyRepository.findAll();
+
+        if (!all.isEmpty()) {
+            return all;
         } else {
-            return Optional.empty();
+            return Collections.emptyList();
         }
     }
 }

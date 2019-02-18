@@ -8,7 +8,5 @@ public interface EngineService {
 
     List<Engine> findAll();
 
-    List<Engine> findByCapacity(double capacity);
-
-    List<Engine> findByPower(int power);
+    Engine findById(int id);
 }

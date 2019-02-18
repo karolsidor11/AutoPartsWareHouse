@@ -12,10 +12,10 @@ import pl.sidor.AutoPartsWareHouse.model.Engine;
 import pl.sidor.AutoPartsWareHouse.service.EngineService;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 public class EngineController {
-
 
     private EngineService engineService;
 
@@ -24,33 +24,24 @@ public class EngineController {
         this.engineService = engineService;
     }
 
-    @RequestMapping(name = "allEngine", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    @RequestMapping(name = "engines", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<List<Engine>> getAllEngine() {
-        List<Engine> all = engineService.findAll();
-        HttpStatus httpStatus = all != null ? HttpStatus.OK : HttpStatus.NOT_FOUND;
-        return new ResponseEntity<>(all, httpStatus);
+
+        Optional<List<Engine>> all = Optional.ofNullable(engineService.findAll());
+
+        HttpStatus httpStatus = HttpStatus.OK;
+
+        return new ResponseEntity<>(all.get(), httpStatus);
 
     }
 
-    @RequestMapping(value = "moc/{power}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<List<Engine>> findByPower(@PathVariable int power) {
+    @RequestMapping(value = "engine/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<Engine> getEngineById(@PathVariable int id) {
 
-        List<Engine> byPower = engineService.findByPower(power);
+        Optional<Engine> byId = Optional.ofNullable(engineService.findById(id));
 
-        HttpStatus httpStatus = byPower != null ? HttpStatus.OK : HttpStatus.NOT_FOUND;
+        HttpStatus httpStatus = HttpStatus.OK;
 
-        return new ResponseEntity<>(byPower, httpStatus);
-    }
-
-//   ToDo  Parsowanie double ????
-
-    @RequestMapping(value = "pojemność/{capacity}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<List<Engine>> findByCapacity(@PathVariable double capacity) {
-
-        List<Engine> byCapacity = engineService.findByCapacity(capacity);
-
-        HttpStatus httpStatus = byCapacity != null ? HttpStatus.OK : HttpStatus.NOT_FOUND;
-
-        return new ResponseEntity<>(byCapacity, httpStatus);
+        return new ResponseEntity<>(byId.get(), httpStatus);
     }
 }

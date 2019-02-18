@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
 import pl.sidor.AutoPartsWareHouse.model.Chassis;
 import pl.sidor.AutoPartsWareHouse.service.ChassisService;
 
+import java.util.List;
 import java.util.Optional;
 
 @RestController
@@ -23,13 +24,23 @@ public class ChassisController {
         this.chassisService = chassisService;
     }
 
-    @RequestMapping(value = "chassis/{id}", method = RequestMethod.GET,produces = MediaType.APPLICATION_JSON_VALUE)
+    @RequestMapping(value = "chassis/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Chassis> findById(@PathVariable int id) {
 
-        Optional<Chassis> byId = chassisService.findById(id);
+        Optional<Chassis> byId = Optional.ofNullable(chassisService.findById(id));
 
         HttpStatus httpStatus = byId.isPresent() ? HttpStatus.OK : HttpStatus.NOT_FOUND;
 
         return new ResponseEntity<>(byId.get(), httpStatus);
+    }
+
+    @RequestMapping(value = "chassis", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<List<Chassis>> getAllChassis() {
+
+        Optional<List<Chassis>> allChassis = Optional.ofNullable(chassisService.findAllChassis());
+
+        HttpStatus httpStatus = HttpStatus.OK;
+
+        return new ResponseEntity<>(allChassis.get(), httpStatus);
     }
 }

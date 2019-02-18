@@ -2,9 +2,12 @@ package pl.sidor.AutoPartsWareHouse.service;
 
 import pl.sidor.AutoPartsWareHouse.model.Chassis;
 
+import java.util.List;
 import java.util.Optional;
 
 public interface ChassisService {
 
-    Optional<Chassis> findById(int id);
+    Chassis findById(int id);
+
+    List<Chassis> findAllChassis();
 }

@@ -9,8 +9,4 @@ import java.util.List;
 @Repository
 public interface EngineRepository extends CrudRepository<Engine, Integer> {
 
-    List<Engine> findByCapacity(double capacity);
-
-    List<Engine> findByPower(int power);
-
 }

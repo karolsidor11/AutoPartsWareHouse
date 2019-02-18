@@ -11,12 +11,12 @@ import org.springframework.web.bind.annotation.RestController;
 import pl.sidor.AutoPartsWareHouse.model.Body;
 import pl.sidor.AutoPartsWareHouse.service.BodyService;
 
+import java.util.List;
 import java.util.Optional;
 
 @RestController
 public class BodyController {
-
-
+    
     private BodyService bodyService;
 
     @Autowired
@@ -26,12 +26,23 @@ public class BodyController {
 
     @RequestMapping(value = "body/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Body> getBodyByID(@PathVariable int id) {
-        Optional<Body> byId = bodyService.findById(id);
 
-        HttpStatus httpStatus = byId.get() != null ? HttpStatus.OK : HttpStatus.NOT_FOUND;
+        Optional<Body> byId = Optional.ofNullable(bodyService.findById(id));
 
+        HttpStatus httpStatus = HttpStatus.OK;
 
         return new ResponseEntity<>(byId.get(), httpStatus);
+
+    }
+
+    @RequestMapping(value = "bodies", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<List<Body>> getAllBody() {
+
+        Optional<List<Body>> allBody = Optional.ofNullable(bodyService.findAllBody());
+
+        HttpStatus httpStatus = HttpStatus.OK;
+
+        return new ResponseEntity<>(allBody.get(), httpStatus);
 
     }
 }

@@ -5,11 +5,12 @@ import org.springframework.stereotype.Service;
 import pl.sidor.AutoPartsWareHouse.model.Engine;
 import pl.sidor.AutoPartsWareHouse.repository.EngineRepository;
 
+import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class EngineServiceImpl implements EngineService {
-
 
     private EngineRepository engineRepository;
 
@@ -20,18 +21,21 @@ public class EngineServiceImpl implements EngineService {
 
     @Override
     public List<Engine> findAll() {
-        return (List<Engine>) engineRepository.findAll();
+        List<Engine> all = (List<Engine>) engineRepository.findAll();
+
+        if (!all.isEmpty()) {
+            return all;
+        } else {
+            return Collections.emptyList();
+        }
     }
 
     @Override
-    public List<Engine> findByCapacity(double capacity) {
+    public Engine findById(int id) {
+        Optional<Engine> byId = engineRepository.findById(id);
 
-        return engineRepository.findByCapacity(capacity);
+        return byId.get();
     }
 
-    @Override
-    public List<Engine> findByPower(int power) {
 
-        return engineRepository.findByPower(power);
-    }
 }
