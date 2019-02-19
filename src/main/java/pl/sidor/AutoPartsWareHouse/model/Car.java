@@ -12,32 +12,32 @@ import javax.persistence.*;
 @NoArgsConstructor
 @Builder
 @Entity
-@Table(name = "Samochody")
+@Table(name = "Cars")
 public class Car {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private int id;
 
-    @Column(name = "Marka")
+    @Column(name = "Mark")
     private String name;
 
     @Column(name = "Model")
     private String model;
 
     @OneToOne()
-    @JoinColumn(name = "silnik_id")
+    @JoinColumn(name = "engine_id")
     private Engine engine;
 
     @OneToOne
-    @JoinColumn(name = "nadwozie_id")
+    @JoinColumn(name = "body_id")
     private Body body;
 
     @OneToOne
-    @JoinColumn(name = "podwozie_id")
+    @JoinColumn(name = "chassis_id")
     private Chassis chassis;
 
-    @Column(name = "Kolor")
+    @Column(name = "Color")
     private String color;
 
 
