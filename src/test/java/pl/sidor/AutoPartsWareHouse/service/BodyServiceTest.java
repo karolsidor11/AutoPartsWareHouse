@@ -3,7 +3,7 @@
 //import org.junit.Test;
 //import org.mockito.Mock;
 //import pl.sidor.AutoPartsWareHouse.dao.BodyDaoImit;
-//import pl.sidor.AutoPartsWareHouse.model.Body;
+//import pl.sidor.AutoPartsWareHouse.models.Body;
 //import pl.sidor.AutoPartsWareHouse.repository.BodyRepository;
 //
 //import java.util.NoSuchElementException;

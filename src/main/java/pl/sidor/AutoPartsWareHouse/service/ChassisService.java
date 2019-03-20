@@ -1,6 +1,6 @@
 package pl.sidor.AutoPartsWareHouse.service;
 
-import pl.sidor.AutoPartsWareHouse.model.Chassis;
+import models.Chassis;
 
 import java.util.List;
 import java.util.Optional;

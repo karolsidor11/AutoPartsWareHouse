@@ -1,6 +1,6 @@
 //package pl.sidor.AutoPartsWareHouse.dao;
 //
-//import pl.sidor.AutoPartsWareHouse.model.Body;
+//import pl.sidor.AutoPartsWareHouse.models.Body;
 //import pl.sidor.AutoPartsWareHouse.service.BodyService;
 //
 //import java.util.ArrayList;

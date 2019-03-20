@@ -2,7 +2,7 @@
 //
 //import org.junit.Test;
 //import pl.sidor.AutoPartsWareHouse.dao.EngineDaoImit;
-//import pl.sidor.AutoPartsWareHouse.model.Engine;
+//import pl.sidor.AutoPartsWareHouse.models.Engine;
 //
 //import java.util.List;
 //

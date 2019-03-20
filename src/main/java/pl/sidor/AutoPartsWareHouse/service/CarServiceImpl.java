@@ -1,17 +1,18 @@
 package pl.sidor.AutoPartsWareHouse.service;
 
+import models.Car;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import pl.sidor.AutoPartsWareHouse.model.Car;
 import pl.sidor.AutoPartsWareHouse.repository.CarRepository;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
 @Service
-public class CarServiceImpl implements  CarService {
+public class CarServiceImpl implements CarService {
 
-    private  CarRepository carRepository;
+    private CarRepository carRepository;
 
     @Autowired
     public CarServiceImpl(CarRepository carRepository) {
@@ -19,17 +20,27 @@ public class CarServiceImpl implements  CarService {
     }
 
     @Override
-    public Optional<List<Car>> findAllCar() {
-        return Optional.ofNullable((List<Car>)carRepository.findAll());
+    public List<Car> findAllCar() {
+        List<Car> all = (List<Car>) carRepository.findAll();
+
+        if (!all.isEmpty()) {
+            return all;
+        } else {
+            return Collections.emptyList();
+        }
     }
 
     @Override
-    public Optional<Car> findById(int id) {
-        return Optional.ofNullable(carRepository.findById(id).get());
+    public Car findById(int id) {
+
+        Optional<Car> byId = carRepository.findById(id);
+
+        return byId.get();
     }
 
     @Override
-    public Optional<Car> saveCar(Car car) {
-        return Optional.ofNullable(carRepository.save(car));
+    public Car saveCar(Car car) {
+        carRepository.save(car);
+        return car;
     }
 }

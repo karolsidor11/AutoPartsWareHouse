@@ -1,15 +1,14 @@
 package pl.sidor.AutoPartsWareHouse.service;
 
-import pl.sidor.AutoPartsWareHouse.model.Car;
+import models.Car;
 
 import java.util.List;
-import java.util.Optional;
 
 public interface CarService {
 
-    Optional<List<Car>> findAllCar();
+    List<Car> findAllCar();
 
-    Optional<Car> findById(int id);
+    Car findById(int id);
 
-    Optional<Car> saveCar(Car car);
+    Car saveCar(Car car);
 }

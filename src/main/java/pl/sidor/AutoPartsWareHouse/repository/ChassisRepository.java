@@ -1,8 +1,9 @@
 package pl.sidor.AutoPartsWareHouse.repository;
 
+import models.Chassis;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
-import pl.sidor.AutoPartsWareHouse.model.Chassis;
+
 @Repository
 public interface ChassisRepository extends CrudRepository<Chassis, Integer> {
 }

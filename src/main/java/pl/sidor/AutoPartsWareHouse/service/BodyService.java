@@ -1,9 +1,8 @@
 package pl.sidor.AutoPartsWareHouse.service;
 
-import pl.sidor.AutoPartsWareHouse.model.Body;
+import models.Body;
 
 import java.util.List;
-import java.util.Optional;
 
 public interface BodyService {
 

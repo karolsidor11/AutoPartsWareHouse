@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
-import pl.sidor.AutoPartsWareHouse.model.Chassis;
+import models.Chassis;
 import pl.sidor.AutoPartsWareHouse.service.ChassisService;
 
 import java.util.List;
@@ -31,7 +31,7 @@ public class ChassisController {
 
         HttpStatus httpStatus = byId.isPresent() ? HttpStatus.OK : HttpStatus.NOT_FOUND;
 
-        return new ResponseEntity<>(byId.get(), httpStatus);
+        return byId.map(chassis -> new ResponseEntity<>(byId.get(), httpStatus)).orElseGet(()->new ResponseEntity<>(httpStatus));
     }
 
     @RequestMapping(value = "chassis", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
@@ -41,6 +41,6 @@ public class ChassisController {
 
         HttpStatus httpStatus = HttpStatus.OK;
 
-        return new ResponseEntity<>(allChassis.get(), httpStatus);
+        return  allChassis.map(chassis -> new ResponseEntity<>(allChassis.get(), httpStatus)).orElse(new ResponseEntity<>(httpStatus));
     }
 }

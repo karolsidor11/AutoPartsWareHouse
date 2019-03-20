@@ -2,7 +2,7 @@ package pl.sidor.AutoPartsWareHouse.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import pl.sidor.AutoPartsWareHouse.model.Chassis;
+import models.Chassis;
 import pl.sidor.AutoPartsWareHouse.repository.ChassisRepository;
 
 import java.util.Collections;

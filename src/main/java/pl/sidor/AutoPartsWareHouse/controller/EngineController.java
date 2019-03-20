@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
-import pl.sidor.AutoPartsWareHouse.model.Engine;
+import models.Engine;
 import pl.sidor.AutoPartsWareHouse.service.EngineService;
 
 import java.util.List;
@@ -31,7 +31,7 @@ public class EngineController {
 
         HttpStatus httpStatus = HttpStatus.OK;
 
-        return new ResponseEntity<>(all.get(), httpStatus);
+        return all.map(engines -> new ResponseEntity<>(all.get(), httpStatus)).orElseGet(() -> new ResponseEntity<>(httpStatus));
 
     }
 
@@ -42,6 +42,6 @@ public class EngineController {
 
         HttpStatus httpStatus = HttpStatus.OK;
 
-        return new ResponseEntity<>(byId.get(), httpStatus);
+        return byId.map(engine -> new ResponseEntity<>(byId.get(), httpStatus)).orElseGet(() -> new ResponseEntity<>(httpStatus));
     }
 }

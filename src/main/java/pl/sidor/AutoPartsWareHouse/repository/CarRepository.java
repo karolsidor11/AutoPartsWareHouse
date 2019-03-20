@@ -1,10 +1,10 @@
 package pl.sidor.AutoPartsWareHouse.repository;
 
+import models.Car;
 import org.springframework.data.repository.CrudRepository;
-import pl.sidor.AutoPartsWareHouse.model.Car;
+import org.springframework.stereotype.Repository;
 
-import java.util.Optional;
-
+@Repository
 public interface CarRepository extends CrudRepository<Car, Integer> {
 
 }

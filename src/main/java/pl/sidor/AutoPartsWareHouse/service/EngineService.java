@@ -1,6 +1,6 @@
 package pl.sidor.AutoPartsWareHouse.service;
 
-import pl.sidor.AutoPartsWareHouse.model.Engine;
+import models.Engine;
 
 import java.util.List;
 

@@ -2,7 +2,7 @@
 //
 //import org.junit.Test;
 //import pl.sidor.AutoPartsWareHouse.dao.ChassisDaoImit;
-//import pl.sidor.AutoPartsWareHouse.model.Chassis;
+//import pl.sidor.AutoPartsWareHouse.models.Chassis;
 //
 //import java.util.NoSuchElementException;
 //import java.util.Optional;

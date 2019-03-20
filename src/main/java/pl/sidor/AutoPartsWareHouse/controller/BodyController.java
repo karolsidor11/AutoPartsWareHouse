@@ -1,5 +1,6 @@
 package pl.sidor.AutoPartsWareHouse.controller;
 
+import models.Body;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -8,7 +9,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
-import pl.sidor.AutoPartsWareHouse.model.Body;
 import pl.sidor.AutoPartsWareHouse.service.BodyService;
 
 import java.util.List;
@@ -16,7 +16,7 @@ import java.util.Optional;
 
 @RestController
 public class BodyController {
-    
+
     private BodyService bodyService;
 
     @Autowired
@@ -31,7 +31,7 @@ public class BodyController {
 
         HttpStatus httpStatus = HttpStatus.OK;
 
-        return new ResponseEntity<>(byId.get(), httpStatus);
+        return byId.map(body -> new ResponseEntity<>(byId.get(), httpStatus)).orElseGet(() -> new ResponseEntity<>(httpStatus));
 
     }
 
@@ -42,7 +42,6 @@ public class BodyController {
 
         HttpStatus httpStatus = HttpStatus.OK;
 
-        return new ResponseEntity<>(allBody.get(), httpStatus);
-
+        return allBody.map(bodies -> new ResponseEntity<>(allBody.get(), httpStatus)).orElseGet(() -> new ResponseEntity<>(httpStatus));
     }
 }
