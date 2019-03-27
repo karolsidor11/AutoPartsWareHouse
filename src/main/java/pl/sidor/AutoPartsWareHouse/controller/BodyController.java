@@ -25,7 +25,7 @@ public class BodyController {
     }
 
     @RequestMapping(value = "body/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Body> getBodyByID(@PathVariable int id) {
+    public ResponseEntity<Body> getBodyByID(@PathVariable int id) throws Exception {
 
         Optional<Body> byId = Optional.ofNullable(bodyService.findById(id));
 

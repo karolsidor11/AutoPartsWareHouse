@@ -1,8 +1,9 @@
 package pl.sidor.AutoPartsWareHouse.service;
 
+import models.Chassis;
+import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import models.Chassis;
 import pl.sidor.AutoPartsWareHouse.repository.ChassisRepository;
 
 import java.util.Collections;
@@ -20,10 +21,13 @@ public class ChassisServiceImpl implements ChassisService {
     }
 
     @Override
-    public Chassis findById(int id) {
-        Optional<Chassis> byId = chassisRepository.findById(id);
+    public Chassis findById(int id) throws Exception {
+        if (id != 0 && id > 0) {
+            Optional<Chassis> byId = chassisRepository.findById(id);
+            return byId.get();
+        }
+        throw new Exception("Id musibyć większę od zero");
 
-        return byId.get();
     }
 
     @Override
@@ -35,6 +39,7 @@ public class ChassisServiceImpl implements ChassisService {
         } else {
             return Collections.emptyList();
         }
-
     }
+
+
 }

@@ -7,7 +7,7 @@ import java.util.Optional;
 
 public interface ChassisService {
 
-    Chassis findById(int id);
+    Chassis findById(int id) throws Exception;
 
     List<Chassis> findAllChassis();
 }

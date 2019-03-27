@@ -25,7 +25,7 @@ public class ChassisController {
     }
 
     @RequestMapping(value = "chassis/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Chassis> findById(@PathVariable int id) {
+    public ResponseEntity<Chassis> findById(@PathVariable int id) throws Exception {
 
         Optional<Chassis> byId = Optional.ofNullable(chassisService.findById(id));
 

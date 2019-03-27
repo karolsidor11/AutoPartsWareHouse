@@ -20,9 +20,13 @@ public class BodyServiceImpl implements BodyService {
     }
 
     @Override
-    public Body findById(int id) {
-        Optional<Body> byId = bodyRepository.findById(id);
-        return byId.get();
+    public Body findById(int id) throws Exception {
+        if (id != 0 && id > 0) {
+            Optional<Body> byId = bodyRepository.findById(id);
+            return byId.get();
+        }
+        throw new Exception("Id nie może byc mniejsze lub równe zero");
+
     }
 
     @Override
