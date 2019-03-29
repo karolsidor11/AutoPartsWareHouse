@@ -8,7 +8,7 @@ public interface CarService {
 
     List<Car> findAllCar();
 
-    Car findById(int id);
+    Car findById(int id) throws Exception;
 
     Car saveCar(Car car);
 }

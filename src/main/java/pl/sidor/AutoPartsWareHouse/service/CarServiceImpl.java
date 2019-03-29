@@ -31,16 +31,22 @@ public class CarServiceImpl implements CarService {
     }
 
     @Override
-    public Car findById(int id) {
-
-        Optional<Car> byId = carRepository.findById(id);
-
-        return byId.get();
+    public Car findById(int id) throws Exception {
+        if (id > 0) {
+            Optional<Car> byId = carRepository.findById(id);
+            return byId.get();
+        } else {
+            throw new Exception("ID nie może być ujemne!!!");
+        }
     }
 
     @Override
     public Car saveCar(Car car) {
-        carRepository.save(car);
-        return car;
+        if (car != null) {
+            carRepository.save(car);
+            return car;
+        } else {
+            throw new NullPointerException();
+        }
     }
 }

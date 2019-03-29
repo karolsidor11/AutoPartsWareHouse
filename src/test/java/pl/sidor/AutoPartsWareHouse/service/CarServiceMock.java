@@ -13,8 +13,7 @@ import java.util.List;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 @RunWith(MockitoJUnitRunner.class)
 public class CarServiceMock {
@@ -71,7 +70,7 @@ public class CarServiceMock {
     }
 
     @Test
-    public void findById_shouldReturnCarById() {
+    public void findById_shouldReturnCarById() throws Exception {
 
         // given
         int id = 3;
@@ -87,8 +86,43 @@ public class CarServiceMock {
         assertEquals("BMW", byId.getName());
     }
 
+    @Test(expected = Exception.class)
+    public void findById_shouldReturnEmptyCar() throws Exception {
+
+        //given
+        int id = -999;
+
+        // when
+        doThrow(new Exception()).when(carService).findById(id);
+        Car byId = carService.findById(id);
+    }
+
+
     @Test
-    public void findById_shouldReturnEmptyCar() {
+    public void saveCar_shouldSaveCar() {
+
+        // given
+        Car audi = Car.builder().id(1).name("Audi").models("A8").color("Black").build();
+
+        //when
+        when(carService.saveCar(audi)).thenReturn(audi);
+        Car car = carService.saveCar(audi);
+
+        //then
+
+        assertNotNull(car);
+        assertEquals(1, car.getId());
+        assertEquals("Audi", car.getName());
+    }
+
+    @Test(expected = Exception.class)
+    public void saveCar_shouldRetrunException() {
+        //given
+        Car car = null;
+
+        //when
+        doThrow(new Exception("Car is Null!!!")).when(carService).saveCar(car);
+        carService.saveCar(car);
 
     }
 
