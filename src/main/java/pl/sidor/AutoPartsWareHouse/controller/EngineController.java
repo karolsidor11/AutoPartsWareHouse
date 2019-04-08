@@ -1,5 +1,6 @@
 package pl.sidor.AutoPartsWareHouse.controller;
 
+import models.Engine;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -8,7 +9,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
-import models.Engine;
 import pl.sidor.AutoPartsWareHouse.service.EngineService;
 
 import java.util.List;
@@ -36,7 +36,7 @@ public class EngineController {
     }
 
     @RequestMapping(value = "engine/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Engine> getEngineById(@PathVariable int id) {
+    public ResponseEntity<Engine> getEngineById(@PathVariable int id) throws Exception {
 
         Optional<Engine> byId = Optional.ofNullable(engineService.findById(id));
 

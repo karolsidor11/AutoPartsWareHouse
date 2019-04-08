@@ -1,72 +1,66 @@
 package pl.sidor.AutoPartsWareHouse.service;
 
 import models.Body;
+import org.junit.Before;
 import org.junit.Test;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.runner.RunWith;
-import org.mockito.Mock;
-import org.mockito.junit.MockitoJUnitRunner;
-import org.mockito.stubbing.OngoingStubbing;
 import pl.sidor.AutoPartsWareHouse.repository.BodyRepository;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
 
 import static org.junit.Assert.*;
 import static org.mockito.Mockito.*;
 
-@RunWith(MockitoJUnitRunner.class)
 public class BodyServiceMock {
 
-    @Mock
     private BodyService bodyService;
-    @Mock
     private BodyRepository bodyRepository;
 
-    @BeforeEach
+    @Before
     public void before() {
         bodyRepository = mock(BodyRepository.class);
         bodyService = new BodyServiceImpl(bodyRepository);
 
     }
 
-    @org.junit.Test
+    @Test
     public void findByID_shouldRetrunBodyById() throws Exception {
 
         // given
         int id = 1;
+        Body actualBody = Body.builder().id(1).bodyCar("Avant").color("Blue").build();
+        when(bodyRepository.findById(id)).thenReturn(Optional.ofNullable(actualBody));
 
         //  when
-        OngoingStubbing<Body> avant = when(bodyService.findById(id)).thenReturn(Body.builder().id(1).bodyCar("Avant").build());
+        Body byId = bodyService.findById(id);
 
         // then
-        assertNotNull(avant);
-        assertEquals(1, bodyService.findById(1).getId());
-        assertEquals("Avant", bodyService.findById(1).getBodyCar());
+        assertNotNull(byId);
+        assertEquals(1, byId.getId());
+        assertEquals("Avant", byId.getBodyCar());
     }
 
-    @Test
+    @Test(expected = NoSuchElementException.class)
     public void findById_shouldEmptyBody() throws Exception {
 
         //given
         int id = 1000;
+        when(bodyRepository.findById(id)).thenReturn(Optional.empty());
 
         //when
-        when(bodyService.findById(id)).thenReturn(null);
+        Body byId = bodyService.findById(id);
 
         //then
-        assertNull(bodyService.findById(id));
-        assertEquals(null, bodyService.findById(id));
+        assertNull(byId);
     }
 
     @Test(expected = Exception.class)
     public void findByID_shouldReturnException() throws Exception {
+
         //  given
         int id = -2;
+        doThrow(new Exception("Id nie może być ujemne")).when(bodyRepository).findById(id);
 
         // when
-        doThrow(new Exception("Id nie może być ujemne")).when(bodyService).findById(id);
         Body byId = bodyService.findById(id);
 
         // then
@@ -76,16 +70,21 @@ public class BodyServiceMock {
     @Test
     public void findAllBody_shouldReturnEmptyList() {
 
+        //given
+        List<Body> objects = Collections.emptyList();
+        when(bodyRepository.findAll()).thenReturn(objects);
+
         // when
-        when(bodyService.findAllBody()).thenReturn(Collections.emptyList());
+        List<Body> allBody = bodyService.findAllBody();
 
         // then
-        assertNotNull(bodyService.findAllBody());
-        assertEquals(Collections.EMPTY_LIST, bodyService.findAllBody());
+        assertEquals(0, allBody.size());
+        assertEquals(Collections.EMPTY_LIST, allBody);
     }
 
     @Test
     public void findAllBody_shouldReturnBodies() {
+
         // given
         List<Body> bodyList = new ArrayList<>();
         Body body1 = Body.builder().id(1).color("Red").door(4).build();
@@ -94,13 +93,15 @@ public class BodyServiceMock {
         bodyList.add(body1);
         bodyList.add(body2);
         bodyList.add(body3);
+        when(bodyRepository.findAll()).thenReturn(bodyList);
+
 
         // when
-        when(bodyService.findAllBody()).thenReturn(bodyList);
+        List<Body> allBody = bodyService.findAllBody();
 
         // then
-        assertNotNull(bodyService.findAllBody());
-        assertEquals(3, bodyService.findAllBody().size());
-        assertEquals("Green", bodyService.findAllBody().get(1).getColor());
+        assertNotNull(allBody);
+        assertEquals(3, allBody.size());
+        assertEquals("Green", allBody.get(1).getColor());
     }
 }

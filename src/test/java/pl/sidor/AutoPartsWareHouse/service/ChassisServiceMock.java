@@ -1,31 +1,27 @@
 package pl.sidor.AutoPartsWareHouse.service;
 
 import models.Chassis;
+import org.junit.Before;
 import org.junit.Test;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.runner.RunWith;
-import org.mockito.Mock;
-import org.mockito.junit.MockitoJUnitRunner;
 import pl.sidor.AutoPartsWareHouse.repository.ChassisRepository;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.NoSuchElementException;
+import java.util.Optional;
 
 import static junit.framework.Assert.assertNotNull;
 import static junit.framework.TestCase.assertNull;
 import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.*;
 
-@RunWith(MockitoJUnitRunner.class)
 public class ChassisServiceMock {
 
-    @Mock
     private ChassisRepository chassisRepository;
-    @Mock
     private ChassisService chassisService;
 
-    @BeforeEach
-    public void setUp() throws Exception {
+    @Before
+    public void setUp() {
         chassisRepository = mock(ChassisRepository.class);
         chassisService = new ChassisServiceImpl(chassisRepository);
     }
@@ -35,12 +31,14 @@ public class ChassisServiceMock {
 
         //given
         int id = 1;
+        Chassis chassis = Chassis.builder().id(1).brakes("Brembo").steering("XDrive").build();
+        when(chassisRepository.findById(id)).thenReturn(Optional.of(chassis));
 
         // when
-        when(chassisService.findById(id)).thenReturn(Chassis.builder().id(1).brakes("Brembo").steering("Xdrive").build());
+        Chassis byId = chassisService.findById(id);
 
         // then
-        assertEquals(1, chassisService.findById(1).getId());
+        assertEquals(1, byId.getId());
     }
 
     @Test(expected = Exception.class)
@@ -48,43 +46,49 @@ public class ChassisServiceMock {
 
         //given
         int id = -100;
+        doThrow(new Exception("ID nie może być ujemne")).when(chassisRepository).findById(id);
 
         //when
-        doThrow(new Exception("ID nie może być ujemne")).when(chassisService).findById(id);
+        Chassis byId = chassisService.findById(id);
 
         //then
-        Chassis byId = chassisService.findById(id);
+        assertNotNull(byId);
+
     }
 
-    @Test
+    @Test(expected = NoSuchElementException.class)
     public void findById_shouldReturnEmptyChassis() throws Exception {
 
         //given
         int id = 999;
+        when(chassisRepository.findById(id)).thenReturn(Optional.empty());
 
         // when
-        when(chassisService.findById(id)).thenReturn(null);
         Chassis byId = chassisService.findById(id);
-        // then
 
-        assertNull(chassisService.findById(id));
-        assertEquals(null, byId);
+        // then
+        assertNull(byId);
     }
 
     @Test
     public void findAllChassis_shouldReturnEmptyListChassis() {
-//        when
-        when(chassisService.findAllChassis()).thenReturn(new ArrayList<>());
 
-//        then
-        assertNotNull(chassisService.findAllChassis());
-        assertEquals(0, chassisService.findAllChassis().size());
+        // given
+        List<Chassis> chassis = new ArrayList<>();
+        when(chassisRepository.findAll()).thenReturn(chassis);
+
+        //when
+        List<Chassis> allChassis = chassisService.findAllChassis();
+
+        // then
+        assertNotNull(allChassis);
+        assertEquals(0, allChassis.size());
     }
 
     @Test
     public void findAllChassis_shouldReturnChassisList() throws Exception {
 
-//        given
+        // given
 
         List<Chassis> chassis = new ArrayList<>();
         Chassis chassis1 = Chassis.builder().id(1).drive("Quattro").brakes("Brembo").build();
@@ -93,15 +97,15 @@ public class ChassisServiceMock {
         chassis.add(chassis1);
         chassis.add(chassis2);
         chassis.add(chassis3);
+        when(chassisRepository.findAll()).thenReturn(chassis);
 
-//        when
-         when(chassisService.findAllChassis()).thenReturn(chassis);
+        // when
+        List<Chassis> allChassis = chassisService.findAllChassis();
 
-//         then
-
-        assertNotNull(chassisService.findAllChassis());
-        assertEquals(3, chassisService.findAllChassis().size());
-        assertEquals("XDrive", chassisService.findAllChassis().get(1).getDrive());
+        // then
+        assertNotNull(allChassis);
+        assertEquals(3, allChassis.size());
+        assertEquals("XDrive", allChassis.get(1).getDrive());
 
     }
 }

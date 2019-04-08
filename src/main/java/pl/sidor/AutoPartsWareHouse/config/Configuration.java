@@ -31,10 +31,6 @@ public class Configuration {
     @Value("${spring.datasource.password}")
     private String USER_PASSWORD;
 
-//    @Value("${hibernate.dialect}")
-//    private String DIALECT;
-
-
     @Bean
     public DataSource dataSource() {
         DriverManagerDataSource driverManagerDataSource = new DriverManagerDataSource();
@@ -60,7 +56,7 @@ public class Configuration {
         return em;
     }
 
-    public Properties properties() {
+    private Properties properties() {
 
         Properties properties = new Properties();
         properties.setProperty("hibernate.hbm2ddl.auto", "update");

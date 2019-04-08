@@ -1,8 +1,8 @@
 package pl.sidor.AutoPartsWareHouse.service;
 
+import models.Engine;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import models.Engine;
 import pl.sidor.AutoPartsWareHouse.repository.EngineRepository;
 
 import java.util.Collections;
@@ -31,11 +31,12 @@ public class EngineServiceImpl implements EngineService {
     }
 
     @Override
-    public Engine findById(int id) {
-        Optional<Engine> byId = engineRepository.findById(id);
-
-        return byId.get();
+    public Engine findById(int id) throws Exception {
+        if (id >=0) {
+            Optional<Engine> byId = engineRepository.findById(id);
+            return byId.get();
+        } else {
+            throw new Exception();
+        }
     }
-
-
 }

@@ -1,41 +1,38 @@
 package pl.sidor.AutoPartsWareHouse.service;
 
 import models.Engine;
+import org.junit.Before;
 import org.junit.Test;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.runner.RunWith;
-import org.mockito.Mock;
-import org.mockito.junit.MockitoJUnitRunner;
 import pl.sidor.AutoPartsWareHouse.repository.EngineRepository;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.NoSuchElementException;
+import java.util.Optional;
 
 import static junit.framework.TestCase.*;
 import static org.mockito.Mockito.*;
 
-@RunWith(MockitoJUnitRunner.class)
 public class EngineServiceMock {
 
-    @Mock
     private EngineRepository engineRepository;
-    @Mock
     private EngineService engineService;
 
-    @BeforeEach
-    public void setUp() throws Exception {
+    @Before
+    public void setUp() {
         engineRepository = mock(EngineRepository.class);
         engineService = new EngineServiceImpl(engineRepository);
     }
 
     @Test
-    public void findByID_shouldReturnEngineById() {
+    public void findByID_shouldReturnEngineById() throws Exception {
 
         //given
         int id = 1;
+        Engine engine= Engine.builder().id(1).power(200).capacity(2.2).build();
+        when(engineRepository.findById(id)).thenReturn(Optional.ofNullable(engine));
 
         //when
-        when(engineService.findById(id)).thenReturn(Engine.builder().id(1).capacity(2.2).build());
         Engine byId = engineService.findById(id);
 
         // then
@@ -45,13 +42,13 @@ public class EngineServiceMock {
     }
 
     @Test(expected = Exception.class)
-    public void findById_shouldReturnException() {
+    public void findById_shouldReturnException() throws Exception {
 
         // given
         int id = -99;
 
         // when
-        doThrow(new Exception("Id nie może być mniejsz od zera")).when(engineService).findById(id);
+        doThrow(new Exception("Id nie może być mniejsz od zera")).when(engineRepository).findById(id);
         Engine byId = engineService.findById(id);
 
         // then
@@ -59,19 +56,18 @@ public class EngineServiceMock {
 
     }
 
-    @Test
-    public void findById_shouldReturnEmptyEngine() {
+    @Test(expected = NoSuchElementException.class)
+    public void findById_shouldReturnEmptyEngine() throws Exception {
 
         // given
         int id = 987;
+        when(engineRepository.findById(id)).thenReturn(Optional.empty());
 
         //when
-        when(engineService.findById(id)).thenReturn(null);
         Engine byId = engineService.findById(id);
 
         //then
         assertNull(byId);
-        assertEquals(null, byId);
     }
 
     @Test
@@ -92,7 +88,6 @@ public class EngineServiceMock {
     public void findAll_shouldReturnListEngine() {
 
         // given
-
         List<Engine> engineList = new ArrayList<>();
         Engine engine1 = Engine.builder().id(1).power(123).torque(220).build();
         Engine engine2 = Engine.builder().id(2).power(143).torque(320).build();
@@ -104,19 +99,14 @@ public class EngineServiceMock {
         engineList.add(engine3);
         engineList.add(engine4);
 
-        //when
+        when(engineRepository.findAll()).thenReturn(engineList);
 
-        when(engineService.findAll()).thenReturn(engineList);
+        //when
         List<Engine> all = engineService.findAll();
 
         // then
-
         assertNotNull(all);
         assertEquals(4, all.size());
         assertEquals(240, all.get(3).getTorque());
-
-
     }
-
-
 }

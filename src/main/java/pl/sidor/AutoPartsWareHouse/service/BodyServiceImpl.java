@@ -20,12 +20,9 @@ public class BodyServiceImpl implements BodyService {
     }
 
     @Override
-    public Body findById(int id) throws Exception {
-        if (id != 0 && id > 0) {
-            Optional<Body> byId = bodyRepository.findById(id);
-            return byId.get();
-        }
-        throw new Exception("Id nie może byc mniejsze lub równe zero");
+    public Body findById(int id) throws IllegalArgumentException {
+
+        return Optional.of(bodyRepository.findById(id)).orElseThrow(IllegalArgumentException::new).get();
 
     }
 
@@ -33,10 +30,7 @@ public class BodyServiceImpl implements BodyService {
     public List<Body> findAllBody() {
         List<Body> all = (List<Body>) bodyRepository.findAll();
 
-        if (!all.isEmpty()) {
-            return all;
-        } else {
-            return Collections.emptyList();
-        }
+        return all.isEmpty() ? all : Collections.emptyList();
     }
 }
+

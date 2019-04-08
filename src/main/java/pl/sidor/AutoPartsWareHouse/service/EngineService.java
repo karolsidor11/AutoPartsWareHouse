@@ -8,5 +8,5 @@ public interface EngineService {
 
     List<Engine> findAll();
 
-    Engine findById(int id);
+    Engine findById(int id) throws Exception;
 }
