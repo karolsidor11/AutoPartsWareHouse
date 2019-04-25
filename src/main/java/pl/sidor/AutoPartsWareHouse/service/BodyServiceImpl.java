@@ -1,5 +1,6 @@
 package pl.sidor.AutoPartsWareHouse.service;
 
+import lombok.extern.slf4j.Slf4j;
 import models.Body;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -10,6 +11,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
+@Slf4j
 public class BodyServiceImpl implements BodyService {
 
     private BodyRepository bodyRepository;
@@ -30,7 +32,7 @@ public class BodyServiceImpl implements BodyService {
     public List<Body> findAllBody() {
         List<Body> all = (List<Body>) bodyRepository.findAll();
 
-        return all.isEmpty() ? all : Collections.emptyList();
+        return !all.isEmpty() ? all : Collections.emptyList();
     }
 }
 

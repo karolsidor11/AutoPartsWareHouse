@@ -41,7 +41,7 @@ class EngineServiceImplTest extends Specification {
 
     def " should return empty list"() {
         given:
-        List<Engine> engineList = new ArrayList<>();
+        List<Engine> engineList = new ArrayList<>()
         engineRepository.findAll() >> engineList
 
         when:
@@ -67,8 +67,8 @@ class EngineServiceImplTest extends Specification {
         List<Engine> actual = engineService.findAll()
 
         then:
-        actual!=null
-        actual.size()==2
-        actual==engineList
+        actual != null
+        actual.size() == 2
+        actual == engineList
     }
 }

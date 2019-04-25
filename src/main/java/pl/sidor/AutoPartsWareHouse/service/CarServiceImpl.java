@@ -1,5 +1,6 @@
 package pl.sidor.AutoPartsWareHouse.service;
 
+import lombok.extern.slf4j.Slf4j;
 import models.Car;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -10,6 +11,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
+@Slf4j
 public class CarServiceImpl implements CarService {
 
     private CarRepository carRepository;
@@ -23,25 +25,21 @@ public class CarServiceImpl implements CarService {
     public List<Car> findAllCar() {
         List<Car> all = (List<Car>) carRepository.findAll();
 
-        if (!all.isEmpty()) {
-            return all;
-        } else {
-            return Collections.emptyList();
-        }
+        return !all.isEmpty() ? all : Collections.emptyList();
     }
 
     @Override
-    public Car findById(int id) throws Exception {
-        if (id > 0) {
-            Optional<Car> byId = carRepository.findById(id);
-            return byId.get();
-        } else {
-            throw new Exception("ID nie może być ujemne!!!");
-        }
+    public Car findById(int id) throws IllegalArgumentException {
+
+        return Optional.of(carRepository.findById(id)).orElseThrow(IllegalArgumentException::new).get();
     }
 
     @Override
     public Car saveCar(Car car) {
+        return getCar(car);
+    }
+
+    private Car getCar(Car car) {
         if (car != null) {
             carRepository.save(car);
             return car;

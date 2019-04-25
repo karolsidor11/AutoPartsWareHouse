@@ -1,5 +1,6 @@
 package pl.sidor.AutoPartsWareHouse.service;
 
+import lombok.extern.slf4j.Slf4j;
 import models.Engine;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -10,6 +11,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
+@Slf4j
 public class EngineServiceImpl implements EngineService {
 
     private EngineRepository engineRepository;
@@ -23,11 +25,8 @@ public class EngineServiceImpl implements EngineService {
     public List<Engine> findAll() {
         List<Engine> all = (List<Engine>) engineRepository.findAll();
 
-        if (!all.isEmpty()) {
-            return all;
-        } else {
-            return Collections.emptyList();
-        }
+        return !all.isEmpty() ? all: Collections.emptyList();
+
     }
 
     @Override

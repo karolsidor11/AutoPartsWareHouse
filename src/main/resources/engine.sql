@@ -1,4 +1,4 @@
-INSERT INTO Engine VALUES
+INSERT INTO Silnik VALUES
   (1, 1.0, 64, 150),
   (2, 2.0, 136, 190),
   (3, 1.5, 100, 185),
@@ -10,7 +10,7 @@ INSERT INTO Engine VALUES
   (9, 3.0, 220, 280),
   (10, 4.2, 340, 500);
 
-INSERT INTO Chassis VALUES
+INSERT INTO Podwozie VALUES
   (1, 'AWD', 'Brembo', 'Lemforder', 'McPerson'),
   (2, 'RWD', 'Bosch', 'Bilstein', 'ATV'),
   (3, 'AWD', 'Bosch', 'Lemforder', 'McPerson'),
@@ -22,7 +22,7 @@ INSERT INTO Chassis VALUES
   (9, 'AWD', 'Bosch', 'Bilstein', 'ATV'),
   (10, 'QUATTRO', 'Brembo', 'Lemforder', 'McPerson');
 
-INSERT  INTO Body VALUES
+INSERT  INTO Nadwozie VALUES
   (1,'Sedan','Niebieski', 4),
   (2,'Hatchback','Czerwony', 4),
   (3,'Sedan','Zielony', 5),

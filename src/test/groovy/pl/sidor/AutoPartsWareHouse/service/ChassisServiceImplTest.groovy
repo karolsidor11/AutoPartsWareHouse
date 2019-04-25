@@ -21,10 +21,24 @@ class ChassisServiceImplTest extends Specification {
         chassisRepository.findById(id) >> Optional.of(chassis)
 
         when:
-        Chassis chassis1 = chassisService.findById(id)
+        Chassis chassisActual = chassisService.findById(id)
 
         then:
-        chassis1 != null
+        chassisActual != null
+        chassisActual == chassis
+    }
+
+    def "should return IllegalArgementException"() {
+        given:
+        Chassis chassis = new Chassis()
+        chassisRepository.findById(-1).get() >> chassis
+
+        when:
+        Chassis chassisActual = chassisService.findById(-1)
+
+        then:
+        thrown(NullPointerException)
+        chassisActual==null
     }
 
     def " should return empty chassis list"() {
@@ -54,8 +68,8 @@ class ChassisServiceImplTest extends Specification {
         List<Chassis> actual = chassisService.findAllChassis()
 
         then:
-        actual!=null
-        actual==chassisList
-        actual.size()==2
+        actual != null
+        actual == chassisList
+        actual.size() == 2
     }
 }
