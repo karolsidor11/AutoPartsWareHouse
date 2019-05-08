@@ -1,6 +1,10 @@
 package pl.sidor.AutoPartsWareHouse.service
 
+import models.Body
 import models.Car
+import models.Chassis
+import models.Engine
+import pl.sidor.AutoPartsWareHouse.exception.IncorrectObjectException
 import pl.sidor.AutoPartsWareHouse.repository.CarRepository
 import spock.lang.Specification
 
@@ -76,18 +80,26 @@ class CarServiceImplTest extends Specification {
 
     def "should save Car"() {
         given:
-        Car car = new Car.CarBuilder().id(1).name("Audi").build()
-        carRepository.save(car)
+        Car car = new Car.CarBuilder()
+                .id(1)
+                .name("Audi")
+                .models("A6")
+                .chassis(new Chassis())
+                .engine(new Engine())
+                .body(new Body())
+                .build()
+
+        carRepository.save(car) >> car
 
         when:
-        Car actualCar = carService.saveCar(car)
+        carService.saveCar(car)
 
         then:
-        1 * carRepository.save(car)
-        actualCar == car
+        _ * carService.saveCar(car)
+
     }
 
-    def " should return NullPointerException"() {
+    def " should return IncorrectObjectException"() {
         given:
         Car car = null
         carRepository.save(car)
@@ -96,6 +108,7 @@ class CarServiceImplTest extends Specification {
         carService.saveCar(car)
 
         then:
-        thrown(NullPointerException)
+        thrown(IncorrectObjectException)
     }
+
 }

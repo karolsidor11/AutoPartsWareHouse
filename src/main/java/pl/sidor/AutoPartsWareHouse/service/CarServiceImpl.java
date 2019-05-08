@@ -4,6 +4,8 @@ import lombok.extern.slf4j.Slf4j;
 import models.Car;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import pl.sidor.AutoPartsWareHouse.exception.IncorrectObjectException;
+import pl.sidor.AutoPartsWareHouse.exception.WrongIDException;
 import pl.sidor.AutoPartsWareHouse.repository.CarRepository;
 
 import java.util.Collections;
@@ -29,22 +31,28 @@ public class CarServiceImpl implements CarService {
     }
 
     @Override
-    public Car findById(int id) throws IllegalArgumentException {
-
-        return Optional.of(carRepository.findById(id)).orElseThrow(IllegalArgumentException::new).get();
+    public Car findById(int id) throws WrongIDException {
+        validateID(id);
+        return Optional.of(carRepository.findById(id)).orElseThrow(WrongIDException::new).get();
     }
 
     @Override
-    public Car saveCar(Car car) {
-        return getCar(car);
+    public Car saveCar(Car car) throws IncorrectObjectException {
+
+        validateObject(car);
+        return carRepository.save(car);
     }
 
-    private Car getCar(Car car) {
-        if (car != null) {
-            carRepository.save(car);
-            return car;
+    private void validateID(int id) throws WrongIDException, NumberFormatException {
+        if (id <= 0) {
+            throw new WrongIDException("Nieprawidłowy  identyfikator ID !!!");
+        }
+    }
+
+    private void validateObject(Object object) throws IncorrectObjectException {
+        if (object != null) {
         } else {
-            throw new NullPointerException();
+            throw new IncorrectObjectException("Niepoprawny obiekt !!!");
         }
     }
 }

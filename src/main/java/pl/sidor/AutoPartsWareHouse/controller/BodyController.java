@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
+import pl.sidor.AutoPartsWareHouse.exception.WrongIDException;
 import pl.sidor.AutoPartsWareHouse.service.BodyService;
 
 import java.util.List;
@@ -31,8 +32,7 @@ public class BodyController {
 
         HttpStatus httpStatus = HttpStatus.OK;
 
-        return byId.map(body -> new ResponseEntity<>(byId.get(), httpStatus)).orElseGet(() -> new ResponseEntity<>(httpStatus));
-
+        return byId.map(body -> new ResponseEntity<>(byId.get(), httpStatus)).orElseThrow(WrongIDException::new);
     }
 
     @RequestMapping(value = "bodies", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)

@@ -4,6 +4,7 @@ import lombok.extern.slf4j.Slf4j;
 import models.Engine;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import pl.sidor.AutoPartsWareHouse.exception.WrongIDException;
 import pl.sidor.AutoPartsWareHouse.repository.EngineRepository;
 
 import java.util.Collections;
@@ -24,18 +25,18 @@ public class EngineServiceImpl implements EngineService {
     @Override
     public List<Engine> findAll() {
         List<Engine> all = (List<Engine>) engineRepository.findAll();
-
-        return !all.isEmpty() ? all: Collections.emptyList();
-
+        return !all.isEmpty() ? all : Collections.emptyList();
     }
 
     @Override
-    public Engine findById(int id) throws Exception {
-        if (id >=0) {
-            Optional<Engine> byId = engineRepository.findById(id);
-            return byId.get();
-        } else {
-            throw new Exception();
+    public Engine findById(int id) throws WrongIDException, NumberFormatException {
+        validateID(id);
+        return Optional.of(engineRepository.findById(id)).orElseThrow(WrongIDException::new).get();
+    }
+
+    private void validateID(int id) throws WrongIDException {
+        if (id <= 0) {
+            throw new WrongIDException("Nieprawidłowy  identyfikator ID !!!");
         }
     }
 }

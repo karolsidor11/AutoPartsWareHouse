@@ -6,6 +6,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
+import pl.sidor.AutoPartsWareHouse.exception.IncorrectObjectException;
 import pl.sidor.AutoPartsWareHouse.repository.CarRepository;
 
 import java.util.ArrayList;
@@ -99,7 +100,7 @@ public class CarServiceMock {
 
 
     @Test
-    public void saveCar_shouldSaveCar() {
+    public void saveCar_shouldSaveCar() throws IncorrectObjectException {
 
         // given
         Car audi = Car.builder().id(1).name("Audi").models("A8").color("Black").build();
@@ -116,7 +117,7 @@ public class CarServiceMock {
     }
 
     @Test(expected = Exception.class)
-    public void saveCar_shouldRetrunException() {
+    public void saveCar_shouldRetrunException() throws IncorrectObjectException {
         //given
         Car car = null;
 

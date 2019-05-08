@@ -1,6 +1,7 @@
 package pl.sidor.AutoPartsWareHouse.service
 
 import models.Chassis
+import pl.sidor.AutoPartsWareHouse.exception.WrongIDException
 import pl.sidor.AutoPartsWareHouse.repository.ChassisRepository
 import spock.lang.Specification
 
@@ -28,7 +29,7 @@ class ChassisServiceImplTest extends Specification {
         chassisActual == chassis
     }
 
-    def "should return IllegalArgementException"() {
+    def "should return WrongIDException"() {
         given:
         Chassis chassis = new Chassis()
         chassisRepository.findById(-1).get() >> chassis
@@ -37,7 +38,7 @@ class ChassisServiceImplTest extends Specification {
         Chassis chassisActual = chassisService.findById(-1)
 
         then:
-        thrown(NullPointerException)
+        thrown(WrongIDException)
         chassisActual==null
     }
 

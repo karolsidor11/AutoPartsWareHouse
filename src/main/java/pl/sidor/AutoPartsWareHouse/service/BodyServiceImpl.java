@@ -4,6 +4,7 @@ import lombok.extern.slf4j.Slf4j;
 import models.Body;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import pl.sidor.AutoPartsWareHouse.exception.WrongIDException;
 import pl.sidor.AutoPartsWareHouse.repository.BodyRepository;
 
 import java.util.Collections;
@@ -22,17 +23,21 @@ public class BodyServiceImpl implements BodyService {
     }
 
     @Override
-    public Body findById(int id) throws IllegalArgumentException {
-
-        return Optional.of(bodyRepository.findById(id)).orElseThrow(IllegalArgumentException::new).get();
-
+    public Body findById(int id) throws WrongIDException, NumberFormatException {
+        validateID(id);
+        return Optional.of(bodyRepository.findById(id)).orElseThrow(WrongIDException::new).get();
     }
 
     @Override
     public List<Body> findAllBody() {
         List<Body> all = (List<Body>) bodyRepository.findAll();
-
         return !all.isEmpty() ? all : Collections.emptyList();
+    }
+
+    private void validateID(int id) throws WrongIDException {
+        if (id <= 0) {
+            throw new WrongIDException("Nieprawidłowy  identyfikator ID !!!");
+        }
     }
 }
 

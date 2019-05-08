@@ -4,6 +4,7 @@ import lombok.extern.slf4j.Slf4j;
 import models.Chassis;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import pl.sidor.AutoPartsWareHouse.exception.WrongIDException;
 import pl.sidor.AutoPartsWareHouse.repository.ChassisRepository;
 
 import java.util.Collections;
@@ -22,8 +23,9 @@ public class ChassisServiceImpl implements ChassisService {
     }
 
     @Override
-    public Chassis findById(int id) throws NullPointerException {
-        return Optional.of(chassisRepository.findById(id)).orElseThrow(NullPointerException::new).get();
+    public Chassis findById(int id) throws WrongIDException, NumberFormatException {
+        validateID(id);
+        return Optional.of(chassisRepository.findById(id)).orElseThrow(WrongIDException::new).get();
     }
 
     @Override
@@ -31,5 +33,11 @@ public class ChassisServiceImpl implements ChassisService {
         List<Chassis> all = (List<Chassis>) chassisRepository.findAll();
 
         return !all.isEmpty() ? all : Collections.emptyList();
+    }
+
+    private void validateID(int id) throws WrongIDException {
+        if (id <= 0) {
+            throw new WrongIDException("Nieprawidłowy  identyfikator ID !!!");
+        }
     }
 }

@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
+import pl.sidor.AutoPartsWareHouse.exception.IncorrectObjectException;
 import pl.sidor.AutoPartsWareHouse.service.CarService;
 
 import java.util.List;
@@ -38,9 +39,7 @@ public class CarController {
     }
 
     @RequestMapping(value = "save", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Car> saveCar(@RequestBody Car car) {
-
-        Car build3 = initCar();
+    public ResponseEntity<Car> saveCar(@RequestBody Car car) throws IncorrectObjectException {
 
         carService.saveCar(car);
 
